@@ -9,8 +9,6 @@ class Token {
       expiresIn: process.env.TOKEN_EXPIRATION,
     });
 
-    console.log('PAYLOAD -->', payload);
-
     return accessToken;
   }
 }
