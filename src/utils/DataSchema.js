@@ -13,6 +13,15 @@ class DataSchema {
         .required('Campo senha é obrigatório')
         .min(6, 'A senha precisa ter no mínimo 6 caracteres'),
     });
+
+    this.login = object({
+      email: string()
+        .required('Campo email é obrigatório')
+        .email('Email inválido'),
+      password: string()
+        .required('Campo senha é obrigatório')
+        .min(6, 'A senha precisa ter no mínimo 6 caracteres!'),
+    });
   }
 }
 

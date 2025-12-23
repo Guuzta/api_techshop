@@ -8,6 +8,12 @@ class Password {
 
     return hashedPassword;
   }
+
+  async compare(password, userPassword) {
+    const isPasswordValid = await bcrypt.compare(password, userPassword);
+
+    return isPasswordValid;
+  }
 }
 
 export default new Password();

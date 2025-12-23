@@ -15,6 +15,21 @@ class UserController {
       next(error);
     }
   }
+
+  async login(req, res, next) {
+    try {
+      const { email, password } = req.body;
+
+      const accessToken = await userService.login({ email, password });
+
+      return res.status(200).json({
+        success: true,
+        accessToken,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default new UserController();

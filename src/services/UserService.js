@@ -1,5 +1,7 @@
 import prisma from '../../prisma/prisma.js';
+
 import passwordHasher from '../utils/Password.js';
+import token from '../utils/Token.js';
 import StatusError from '../utils/StatusError.js';
 
 class UserService {
@@ -23,6 +25,29 @@ class UserService {
     const user = { name, email };
 
     return user;
+  }
+
+  async login({ email, password }) {
+    const user = await prisma.user.findUnique({ where: { email } });
+
+    if (!user) {
+      throw new StatusError('Email ou senha inválidos', 401);
+    }
+
+    const isPasswordValid = await passwordHasher.compare(
+      password,
+      user.password,
+    );
+
+    if (!isPasswordValid) {
+      throw new StatusError('Email ou senha inválidos', 401);
+    }
+
+    const { id, name } = user;
+
+    const accessToken = token.generateAccessToken({ id, name, email });
+
+    return accessToken;
   }
 }
 
