@@ -22,7 +22,7 @@ router.post(
 );
 
 router.patch(
-  '/update',
+  '/',
   loginRequired,
   dataValidation.validate(dataSchema.update),
   userController.update,
