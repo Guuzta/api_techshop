@@ -49,6 +49,15 @@ class UserService {
 
     return accessToken;
   }
+
+  async update(userUpdates, userId) {
+    await prisma.user.update({
+      where: { id: userId },
+      data: userUpdates,
+    });
+
+    return userUpdates;
+  }
 }
 
 export default new UserService();
