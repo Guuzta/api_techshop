@@ -51,6 +51,12 @@ class UserService {
   }
 
   async update(userUpdates, userId) {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+
+    if (!user) {
+      throw new StatusError('Usuário não encontrado', 404);
+    }
+
     await prisma.user.update({
       where: { id: userId },
       data: userUpdates,

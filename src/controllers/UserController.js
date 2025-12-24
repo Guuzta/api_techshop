@@ -35,7 +35,7 @@ class UserController {
     try {
       const userUpdates = await userService.update(req.body, req.userId);
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         userUpdates,
       });
