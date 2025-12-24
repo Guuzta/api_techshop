@@ -28,4 +28,6 @@ router.patch(
   userController.update,
 );
 
+router.delete('/', loginRequired, userController.delete);
+
 export default router;
