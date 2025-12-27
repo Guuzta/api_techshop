@@ -31,6 +31,21 @@ class UserController {
     }
   }
 
+  async logout(req, res, next) {
+    try {
+      const { sessionId } = req;
+
+      await userService.logout(sessionId);
+
+      return res.status(200).json({
+        success: true,
+        message: 'Logout realizado com sucesso',
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async update(req, res, next) {
     try {
       const userUpdates = await userService.update(req.body, req.userId);
@@ -50,7 +65,7 @@ class UserController {
 
       return res.status(200).json({
         success: true,
-        message: 'Usuário deletado com sucesso!',
+        message: 'Usuário deletado com sucesso',
       });
     } catch (error) {
       next(error);

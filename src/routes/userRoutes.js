@@ -21,6 +21,8 @@ router.post(
   userController.login,
 );
 
+router.post('/logout', loginRequired, userController.logout);
+
 router.patch(
   '/',
   loginRequired,

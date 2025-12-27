@@ -45,9 +45,25 @@ class UserService {
 
     const { id, name } = user;
 
-    const accessToken = token.generateAccessToken({ id, name, email });
+    const session = await prisma.session.create({
+      data: {
+        userId: user.id,
+        expiresAt: new Date(Date.now() + 1000 * 60 * 15),
+      },
+    });
+
+    const tokenId = session.id;
+
+    const accessToken = token.generateAccessToken({ id, name, email, tokenId });
 
     return accessToken;
+  }
+
+  async logout(sessionId) {
+    await prisma.session.update({
+      where: { id: sessionId },
+      data: { isValid: false },
+    });
   }
 
   async update(userUpdates, userId) {

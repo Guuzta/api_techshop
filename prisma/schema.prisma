@@ -12,4 +12,15 @@ model User {
   password  String   
   email     String   @unique
   createdAt DateTime @default(now())
+  sessions  Session[]
+}
+
+model Session {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  isValid   Boolean  @default(true)   
+  createdAt DateTime @default(now())
+  expiresAt DateTime 
+
+  user User @relation(fields: [userId], references: [id])
 }

@@ -1,33 +1,41 @@
 /* eslint-disable */
 import jwt from 'jsonwebtoken';
+import prisma from '../../prisma/prisma.js';
+import StatusError from '../utils/StatusError.js';
 
-const loginRequired = (req, res, next) => {
+const loginRequired = async (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization) {
-    return res.status(401).json({
-      success: false,
-      errors: ['Token não fornecido'],
-    });
+    throw new StatusError('Token não fornecido', 401);
   }
 
   const [, token] = authorization.split(' ');
 
   try {
-    const data = jwt.verify(token, process.env.TOKEN_SECRET);
+    const payload = jwt.verify(token, process.env.TOKEN_SECRET);
 
-    const { id, name, email } = data;
+    const session = await prisma.session.findUnique({
+      where: { id: payload.tokenId },
+    });
+
+    if (!session || !session.isValid) {
+      return res.status(401).json({
+        success: false,
+        errors: ['Sessão inválida'],
+      });
+    }
+
+    const { id, name, email, tokenId } = payload;
 
     req.userId = id;
     req.userName = name;
     req.userEmail = email;
+    req.sessionId = tokenId;
 
     next();
   } catch (_) {
-    return res.status(403).json({
-      success: false,
-      errors: ['Token inválido ou expirado'],
-    });
+    throw new StatusError('Token inválido ou expirado', 403);
   }
 };
 
