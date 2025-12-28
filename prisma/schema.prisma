@@ -17,10 +17,8 @@ model User {
 
 model Session {
   id        Int      @id @default(autoincrement())
-  userId    Int
-  isValid   Boolean  @default(true)   
+  userId    Int   
   createdAt DateTime @default(now())
-  expiresAt DateTime 
 
   user User @relation(fields: [userId], references: [id])
 }

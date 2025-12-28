@@ -19,7 +19,7 @@ const loginRequired = async (req, res, next) => {
       where: { id: payload.tokenId },
     });
 
-    if (!session || !session.isValid) {
+    if (!session) {
       return res.status(401).json({
         success: false,
         errors: ['Sessão inválida'],

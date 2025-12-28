@@ -48,7 +48,6 @@ class UserService {
     const session = await prisma.session.create({
       data: {
         userId: user.id,
-        expiresAt: new Date(Date.now() + 1000 * 60 * 15),
       },
     });
 
@@ -60,9 +59,8 @@ class UserService {
   }
 
   async logout(sessionId) {
-    await prisma.session.update({
+    await prisma.session.delete({
       where: { id: sessionId },
-      data: { isValid: false },
     });
   }
 
