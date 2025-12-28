@@ -5,6 +5,7 @@ dotenv.config();
 
 import homeRoutes from './routes/homeRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import productRoutes from './routes/productRoutes.js';
 
 import errorHandler from './middleware/ErrorHandler.js';
 
@@ -24,6 +25,7 @@ class App {
   routes() {
     this.app.use('/', homeRoutes);
     this.app.use('/users', userRoutes);
+    this.app.use('/products', productRoutes);
   }
 
   errorMiddleware() {
