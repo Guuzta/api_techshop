@@ -42,6 +42,22 @@ class ProductController {
       next(error);
     }
   }
+
+  async delete(req, res, next) {
+    try {
+      const { productId } = req.params;
+      const { userId } = req;
+
+      await productService.delete(productId, userId);
+
+      res.json({
+        success: true,
+        message: 'Produto deletado com sucesso',
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default new ProductController();

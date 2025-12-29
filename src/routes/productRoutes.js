@@ -23,4 +23,11 @@ router.patch(
   productController.update,
 );
 
+//prettier-ignore
+router.delete(
+  '/:productId',
+  loginRequired,
+  productController.delete,
+);
+
 export default router;
