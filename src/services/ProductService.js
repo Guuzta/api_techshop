@@ -76,6 +76,12 @@ class ProductService {
       where: { id },
     });
   }
+
+  async listUserProducts(userId) {
+    const products = await prisma.product.findMany({ where: { userId } });
+
+    return products;
+  }
 }
 
 export default new ProductService();

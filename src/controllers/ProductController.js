@@ -58,6 +58,21 @@ class ProductController {
       next(error);
     }
   }
+
+  async listUserProducts(req, res, next) {
+    try {
+      const { userId } = req;
+
+      const products = await productService.listUserProducts(userId);
+
+      res.status(200).json({
+        success: true,
+        products,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default new ProductController();

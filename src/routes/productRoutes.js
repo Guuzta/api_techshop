@@ -30,4 +30,11 @@ router.delete(
   productController.delete,
 );
 
+//prettier-ignore
+router.get(
+  '/my',
+  loginRequired,
+  productController.listUserProducts
+)
+
 export default router;
