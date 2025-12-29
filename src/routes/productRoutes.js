@@ -16,4 +16,11 @@ router.post(
   productController.create,
 );
 
+router.patch(
+  '/:productId',
+  loginRequired,
+  dataValidation.validate(dataSchema.updateProduct),
+  productController.update,
+);
+
 export default router;

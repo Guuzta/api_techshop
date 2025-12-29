@@ -22,6 +22,26 @@ class ProductController {
       next(error);
     }
   }
+
+  async update(req, res, next) {
+    try {
+      const { productId } = req.params;
+      const { userId } = req;
+
+      const productUpdates = await productService.update(
+        req.body,
+        productId,
+        userId,
+      );
+
+      res.json({
+        success: true,
+        productUpdates,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default new ProductController();

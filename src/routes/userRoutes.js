@@ -21,7 +21,12 @@ router.post(
   userController.login,
 );
 
-router.post('/logout', loginRequired, userController.logout);
+//prettier-ignore
+router.post(
+  '/logout', 
+  loginRequired, 
+  userController.logout
+);
 
 router.patch(
   '/',

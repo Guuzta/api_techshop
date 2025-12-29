@@ -48,6 +48,22 @@ class DataSchema {
         .required('Campo quantidade é obrigatório')
         .min(0, 'A quantidade não pode ser negativa'),
     });
+
+    this.updateProduct = object({
+      name: string().min(4, 'O nome precisa ter no mínimo 4 caracteres'),
+      description: string().min(
+        15,
+        'A descrição  precisa ter no mínimo 15 caracteres',
+      ),
+      price: number().min(0, 'O preço não pode ser negativo'),
+      stock: number()
+        .integer('Quantidade precisa ser um número inteiro')
+        .min(0, 'A quantidade não pode ser negativa'),
+    }).test(
+      'at-least-one-field',
+      'Informe ao menos um campo para atualização',
+      (value) => Object.keys(value || {}).length > 0,
+    );
   }
 }
 
