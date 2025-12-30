@@ -82,6 +82,44 @@ class ProductService {
 
     return products;
   }
+
+  async listProducts({ page, limit, name }) {
+    const skip = (page - 1) * limit;
+
+    const products = await prisma.product.findMany({
+      take: limit,
+      skip: skip,
+      where: {
+        name: {
+          contains: name,
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        price: true,
+        stock: true,
+      },
+    });
+
+    const total = await prisma.product.count();
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+      success: true,
+      products,
+      meta: {
+        page,
+        limit,
+        total,
+        totalPages,
+      },
+    };
+  }
 }
 
 export default new ProductService();

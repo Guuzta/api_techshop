@@ -35,6 +35,12 @@ router.get(
   '/my',
   loginRequired,
   productController.listUserProducts
-)
+);
+
+//prettier-ignore
+router.get(
+  '/',
+  productController.listProducts
+);
 
 export default router;
