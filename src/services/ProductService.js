@@ -2,7 +2,13 @@ import prisma from '../../prisma/prisma.js';
 import StatusError from '../utils/StatusError.js';
 
 class ProductService {
-  async create({ name, description, price, stock, userId }) {
+  async create({ name, description, price, stock, userId, file }) {
+    if (!file) {
+      throw new StatusError('O envio de uma imagem é obrigatório', 400);
+    }
+
+    const imageUrl = `uploads/${file.filename}`;
+
     await prisma.product.create({
       data: {
         name,
@@ -10,6 +16,7 @@ class ProductService {
         description,
         price,
         stock,
+        imageUrl,
       },
     });
 
