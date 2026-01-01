@@ -1,8 +1,10 @@
 class DataValidation {
   validate(schemaName) {
     return async (req, res, next) => {
+      const data = req.body.data ? JSON.parse(req.body.data) : req.body;
+
       try {
-        await schemaName.validate(req.body, {
+        await schemaName.validate(data, {
           abortEarly: false,
         });
 
