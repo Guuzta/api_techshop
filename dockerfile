@@ -1,7 +1,8 @@
 FROM node:20-alpine
-WORKDIR /app
+WORKDIR /api_techshop
 COPY package*.json ./
-RUN npm install --production
+RUN npm install
 COPY . .
+RUN npx prisma generate
 EXPOSE 3000
-CMD ["node", "src/app.js"]
+CMD ["node", "src/server.js"]
