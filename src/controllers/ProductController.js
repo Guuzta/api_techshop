@@ -12,8 +12,8 @@ class ProductController {
       const product = await productService.create({
         name,
         description,
-        price,
-        stock,
+        price: parseFloat(price),
+        stock: parseInt(stock),
         file,
         userId,
       });
