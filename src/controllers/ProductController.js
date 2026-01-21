@@ -3,7 +3,9 @@ import productService from '../services/ProductService.js';
 class ProductController {
   async create(req, res, next) {
     try {
-      const { name, description, price, stock } = JSON.parse(req.body.data);
+      const data = req.body.data ? JSON.parse(req.body.data) : req.body;
+
+      const { name, description, price, stock } = data;
       const { userId } = req;
       const file = req.file;
 
