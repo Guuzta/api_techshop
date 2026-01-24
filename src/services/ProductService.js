@@ -110,6 +110,7 @@ class ProductService {
         description: true,
         price: true,
         stock: true,
+        imageUrl: true,
       },
     });
 
