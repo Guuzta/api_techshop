@@ -93,14 +93,12 @@ class ProductService {
   async listProducts({ page, limit, name }) {
     const skip = (page - 1) * limit;
 
+    const where = name ? { name: { contains: name } } : {};
+
     const products = await prisma.product.findMany({
       take: limit,
       skip: skip,
-      where: {
-        name: {
-          contains: name,
-        },
-      },
+      where,
       orderBy: {
         createdAt: 'desc',
       },
@@ -114,7 +112,7 @@ class ProductService {
       },
     });
 
-    const total = await prisma.product.count();
+    const total = await prisma.product.count({ where });
     const totalPages = Math.ceil(total / limit);
 
     return {
