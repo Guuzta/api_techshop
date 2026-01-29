@@ -45,4 +45,11 @@ router.get(
   productController.listProducts
 );
 
+//prettier-ignore
+router.get(
+  '/:productId',
+  loginRequired,
+  productController.listProduct
+)
+
 export default router;

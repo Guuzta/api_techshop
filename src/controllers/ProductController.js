@@ -91,6 +91,19 @@ class ProductController {
       next(error);
     }
   }
+
+  async listProduct(req, res, next) {
+    try {
+      const { userId } = req;
+      const { productId } = req.params;
+
+      const product = await productService.listProduct({ userId, productId });
+
+      res.status(200).json(product);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default new ProductController();
