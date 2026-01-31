@@ -70,7 +70,7 @@ class UserService {
     });
   }
 
-  async update(userUpdates, userId) {
+  async update(name, email, userId) {
     const user = await prisma.user.findUnique({ where: { id: userId } });
 
     if (!user) {
@@ -79,10 +79,13 @@ class UserService {
 
     await prisma.user.update({
       where: { id: userId },
-      data: userUpdates,
+      data: {
+        name,
+        email,
+      },
     });
 
-    return userUpdates;
+    return { name, email };
   }
 
   async updatePassword(currentPassword, newPassword, userId) {

@@ -26,7 +26,6 @@ class DataSchema {
     this.update = object({
       name: string().min(4, 'O nome precisa ter no mínimo 4 caracteres!'),
       email: string().email('Email inválido'),
-      password: string().min(6, 'A senha precisa ter no mínimo 6 caracteres'),
     }).test(
       'at-least-one-field',
       'Informe ao menos um campo para atualização',

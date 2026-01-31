@@ -29,7 +29,7 @@ router.post(
 );
 
 router.patch(
-  '/',
+  '/me',
   loginRequired,
   dataValidation.validate(dataSchema.update),
   userController.update,
