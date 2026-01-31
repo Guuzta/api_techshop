@@ -43,7 +43,7 @@ class UserService {
       throw new StatusError('Email ou senha inválidos', 401);
     }
 
-    const { id, name } = user;
+    const { id, name, createdAt } = user;
 
     const session = await prisma.session.create({
       data: {
@@ -53,7 +53,13 @@ class UserService {
 
     const tokenId = session.id;
 
-    const accessToken = token.generateAccessToken({ id, name, email, tokenId });
+    const accessToken = token.generateAccessToken({
+      id,
+      name,
+      email,
+      tokenId,
+      createdAt,
+    });
 
     return accessToken;
   }
