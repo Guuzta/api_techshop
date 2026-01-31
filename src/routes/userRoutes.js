@@ -35,6 +35,13 @@ router.patch(
   userController.update,
 );
 
+router.patch(
+  '/me/password',
+  loginRequired,
+  dataValidation.validate(dataSchema.updatePassword),
+  userController.updatePassword,
+);
+
 router.delete('/', loginRequired, userController.delete);
 
 export default router;

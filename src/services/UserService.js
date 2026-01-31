@@ -85,6 +85,34 @@ class UserService {
     return userUpdates;
   }
 
+  async updatePassword(currentPassword, newPassword, userId) {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+
+    if (!user) {
+      throw new StatusError('Usuário não encontrado', 404);
+    }
+
+    const isPasswordValid = await passwordHasher.compare(
+      currentPassword,
+      user.password,
+    );
+
+    if (!isPasswordValid) {
+      throw new StatusError('Senha atual inválida', 401);
+    }
+
+    const hashedPassword = await passwordHasher.hash(newPassword);
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        password: hashedPassword,
+      },
+    });
+
+    return;
+  }
+
   async delete(userId) {
     const user = await prisma.user.findUnique({ where: { id: userId } });
 

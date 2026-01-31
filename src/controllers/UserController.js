@@ -59,6 +59,25 @@ class UserController {
     }
   }
 
+  async updatePassword(req, res, next) {
+    try {
+      const { currentPassword, newPassword } = req.body;
+
+      await userService.updatePassword(
+        currentPassword,
+        newPassword,
+        req.userId,
+      );
+
+      return res.status(200).json({
+        success: true,
+        message: 'Senha atualizada com sucesso!',
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async delete(req, res, next) {
     try {
       await userService.delete(req.userId);
