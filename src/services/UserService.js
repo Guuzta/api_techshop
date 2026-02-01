@@ -101,7 +101,14 @@ class UserService {
     );
 
     if (!isPasswordValid) {
-      throw new StatusError('Senha atual inválida', 401);
+      throw new StatusError('Senha atual inválida', 400);
+    }
+
+    if (currentPassword === newPassword) {
+      throw new StatusError(
+        'Sua nova senha não pode ser igual a senha atual',
+        400,
+      );
     }
 
     const hashedPassword = await passwordHasher.hash(newPassword);
