@@ -20,7 +20,7 @@ class UserController {
     try {
       const { email, password } = req.body;
 
-      const accessToken = await userService.login({ email, password });
+      const accessToken = await userService.login({ res, email, password });
 
       return res.status(200).json({
         success: true,

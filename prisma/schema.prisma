@@ -12,6 +12,7 @@ model User {
   password  String   
   email     String   @unique
   createdAt DateTime @default(now())
+  refreshToken String?
   sessions  Session[]
   products Product[]
 }

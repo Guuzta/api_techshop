@@ -27,7 +27,7 @@ class UserService {
     return user;
   }
 
-  async login({ email, password }) {
+  async login({ res, email, password }) {
     const user = await prisma.user.findUnique({ where: { email } });
 
     if (!user) {
@@ -59,6 +59,21 @@ class UserService {
       email,
       tokenId,
       createdAt,
+    });
+
+    const refreshToken = token.generateRefreshToken({ id, email });
+
+    await prisma.user.update({
+      where: { id },
+      data: { refreshToken },
+    });
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      path: '/auth/refresh',
     });
 
     return accessToken;
