@@ -61,7 +61,13 @@ class UserService {
       createdAt,
     });
 
-    const refreshToken = token.generateRefreshToken({ id, email });
+    const refreshToken = token.generateRefreshToken({
+      id,
+      name,
+      email,
+      tokenId,
+      createdAt,
+    });
 
     await prisma.user.update({
       where: { id },
@@ -71,9 +77,9 @@ class UserService {
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      path: '/auth/refresh',
+      path: '/',
     });
 
     return accessToken;

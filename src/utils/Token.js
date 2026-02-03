@@ -12,14 +12,25 @@ class Token {
     return accessToken;
   }
 
-  generateRefreshToken({ id, email }) {
-    const payload = { id, email };
+  generateRefreshToken({ id, name, email, tokenId, createdAt }) {
+    const payload = { id, name, email, tokenId, createdAt };
 
     const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
       expiresIn: process.env.REFRESH_TOKEN_EXPIRATION,
     });
 
     return refreshToken;
+  }
+
+  verifyRefreshToken(token) {
+    try {
+      const payload = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+
+      return payload;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
   }
 }
 

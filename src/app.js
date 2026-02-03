@@ -13,6 +13,7 @@ dotenv.config();
 import homeRoutes from './routes/homeRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import productRoutes from './routes/productRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 
 import errorHandler from './middleware/ErrorHandler.js';
 
@@ -27,7 +28,12 @@ class App {
   middlewares() {
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
-    this.app.use(cors());
+    this.app.use(
+      cors({
+        origin: 'http://localhost:3000',
+        credentials: true,
+      }),
+    );
     this.app.use(cookieParser());
   }
 
@@ -37,6 +43,7 @@ class App {
     this.app.use('/products', productRoutes);
     //prettier-ignore
     this.app.use('/uploads', express.static(path.resolve(__dirname, '..', 'uploads')));
+    this.app.use('/auth', authRoutes);
   }
 
   errorMiddleware() {
