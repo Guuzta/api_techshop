@@ -33,9 +33,9 @@ class UserController {
 
   async logout(req, res, next) {
     try {
-      const { sessionId } = req;
+      const { sessionId, userId } = req;
 
-      await userService.logout(sessionId);
+      await userService.logout(sessionId, userId);
 
       return res.status(200).json({
         success: true,

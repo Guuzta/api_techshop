@@ -85,9 +85,16 @@ class UserService {
     return accessToken;
   }
 
-  async logout(sessionId) {
+  async logout(sessionId, userId) {
     await prisma.session.delete({
       where: { id: sessionId },
+    });
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        refreshToken: null,
+      },
     });
   }
 
